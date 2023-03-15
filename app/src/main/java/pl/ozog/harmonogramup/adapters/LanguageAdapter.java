@@ -50,9 +50,7 @@ public class LanguageAdapter extends BaseAdapter {
         TextView itemTextView = result.findViewById(android.R.id.text1);
         itemTextView.setTextSize(20);
         itemTextView.setText(item.getValue());
-
 //        ((TextView) result.findViewById(android.R.id.text1)).setText(item.getValue());
-
         return result;
     }
 }
