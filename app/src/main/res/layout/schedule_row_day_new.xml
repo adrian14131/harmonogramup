@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/sdName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="Kurs o długiej nazwie  "
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/sdTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:singleLine="true"
+            android:text="0:00-23:59"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sdName" />
+
+    <TextView
+            android:id="@+id/sdClassRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="Sala 316 Podchorążych 2"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sdName" />
+
+    <TextView
+            android:id="@+id/sdGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:text="Grupa: L1"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sdTime" />
+</androidx.constraintlayout.widget.ConstraintLayout>
