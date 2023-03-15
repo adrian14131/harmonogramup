@@ -13,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Range;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,10 +26,12 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import pl.ozog.harmonogramup.generators.ListGenerators;
 import pl.ozog.harmonogramup.items.CourseItem;
 import pl.ozog.harmonogramup.items.RangeItem;
 import pl.ozog.harmonogramup.tools.FileTools;
@@ -69,24 +72,34 @@ public class SplashActivity extends AppCompatActivity{
         boolean updateOption = sharedPreferences.getBoolean("updateOption", true);
         if(isOnline() || offlineMode){
             if(hasConfig(sharedPreferences)){
-                loadDatasToJson(MainActivity.searchUrl, MainActivity.selectUrl);
-                //isNewData(internalStorageDir);
-//                ArrayList<String> temp = new ArrayList<>();
-//                temp = MainActivity.generateGroup(new ChooseSettings(), getScheduleSettings(sharedPreferences),MainActivity.selectUrl, MainActivity.searchUrl);
-                if(updateOption && isNewData(internalStorageDir)){
-                    showInfo(getResources().getString(R.string.updating_data)+"\n"+getResources().getString(R.string.wait_moment));
-                    update(internalStorageDir);
-
+                if(!offlineMode)
+                    loadDatasToJson(MainActivity.searchUrl, MainActivity.selectUrl);if(isNewData(internalStorageDir)){
+                    if(isOnline() && updateOption){
+                        showInfo(getResources().getString(R.string.updating_data)+"\n"+getResources().getString(R.string.wait_moment));
+                        update(internalStorageDir);
+                    }
                 }
-                if(hasOfflineData(internalStorageDir)) goToMain();
 
+               if(hasOfflineData(internalStorageDir)){
+                    if(isOnline())
+                        showInfo(false);
+                        //showInfo(getResources().getString(R.string.loading));
+                    else
+                        showInfo(getResources().getString(R.string.no_internet_short)+"\n"+getResources().getString(R.string.loading_offline_data));
+                    goToMain();
+                }
+                else{
+                    showInfo(getResources().getString(R.string.no_data));
+                }
             }
             else{
                 if(isOnline()){
                     showInfo(getResources().getString(R.string.field_not_choosed)+"\n"+getResources().getString(R.string.wait_moment));
-                    if(isNewData(internalStorageDir)){
-                        update(internalStorageDir);
-                    }
+                    loadDatasToJson(MainActivity.searchUrl, MainActivity.selectUrl);
+                    update(internalStorageDir);
+//                    if(isNewData(internalStorageDir)){
+//                        update(internalStorageDir);
+//                    }
                     goToFirstConfig();
                 }
                 else{
@@ -97,9 +110,9 @@ public class SplashActivity extends AppCompatActivity{
         else{
             if(hasConfig(sharedPreferences)){
                 if(hasOfflineData(internalStorageDir)){
-                    //showInfo(getResources().getString(R.string.no_internet_short)+"\n"+getResources().getString(R.string.loading_offline_data));
-                    //goToMain();
-                    showInfo(getResources().getString(R.string.no_data)+"\n"+getResources().getString(R.string.no_internet_connection));
+                    showInfo(getResources().getString(R.string.no_internet_short)+"\n"+getResources().getString(R.string.loading_offline_data));
+                    goToMain();
+//                    showInfo(getResources().getString(R.string.no_data)+"\n"+getResources().getString(R.string.no_internet_connection));
                 }
                 else{
                     showInfo(getResources().getString(R.string.no_data)+"\n"+getResources().getString(R.string.no_internet_connection));
@@ -200,6 +213,7 @@ public class SplashActivity extends AppCompatActivity{
 
     private boolean isNewData(File internalStorageDir){
         for(Map.Entry<String, JSONObject> entry: files.entrySet()){
+            Log.e(TAG, "isNewData: "+entry.getKey());
             if(!FileTools.compareFileToJson(internalStorageDir, entry.getKey(), entry.getValue())){
                 Log.e(TAG, "is new datas for "+entry.getKey() );
                 return true;
@@ -219,13 +233,15 @@ public class SplashActivity extends AppCompatActivity{
     private boolean update(File internalStorageDir){
         for(Map.Entry<String, JSONObject> entry: files.entrySet()){
             FileTools.saveJsonToFile(internalStorageDir, entry.getKey(), entry.getValue());
+            Log.e(TAG, "update: "+entry.getKey());
         }
         return false;
     }
 
     private boolean loadDatasToJson(String coursesUrl, String rangesUrl){
-        SharedPreferences sp =getSharedPreferences("schedule", Context.MODE_PRIVATE);
-        ArrayList<RangeItem> rangeSemesters = MainActivity.generateRangeList(rangesUrl, new ChooseSettings(), "3");
+        SharedPreferences sp = getSharedPreferences("schedule", Context.MODE_PRIVATE);
+        //ArrayList<RangeItem> rangeSemesters = MainActivity.generateRangeList(rangesUrl, new ChooseSettings(), "3");
+        ArrayList<RangeItem> rangeSemesters = ListGenerators.generateRangeList(new ChooseSettings(), "3", rangesUrl);
         jsonCourses = loadCoursesToJson(coursesUrl, rangeSemesters, sp);
         files.put("courses.json", jsonCourses);
         //if(FileTools.saveJsonToFile(internalStorageDir, "courses.json", jsonCourses) == null) return false;
@@ -254,7 +270,10 @@ public class SplashActivity extends AppCompatActivity{
 
                     JSONObject semester = new JSONObject(new Gson().toJson(ri));
 
-                    ArrayList<CourseItem> cis = MainActivity.generateListOfCourses(MainActivity.getScheduleSettings(sp), ri, "3", coursesUrl);
+                    //ArrayList<CourseItem> cis = MainActivity.generateListOfCourses(MainActivity.getScheduleSettings(sp), ri, "3", coursesUrl);
+                    ChooseSettings chooseSettings = new ChooseSettings();
+                    chooseSettings.setArgs(sp);
+                    ArrayList<CourseItem> cis = ListGenerators.generateListOfCourses(chooseSettings, "3", ri, coursesUrl);
                     JSONArray courses = new JSONArray(new Gson().toJson(cis));
                     semester.put("courses", courses);
                     semesters.put(semester);
@@ -275,8 +294,10 @@ public class SplashActivity extends AppCompatActivity{
         try{
             for(RangeItem ri: ris){
                 JSONObject semester = new JSONObject(new Gson().toJson(ri));
-
-                ArrayList<String> groups = MainActivity.generateGroup(new ChooseSettings(), MainActivity.getScheduleSettings(sp), coursesUrl, ri);
+                ChooseSettings chooseSettings = new ChooseSettings();
+                chooseSettings.setArgs(sp);
+                ArrayList<String> groups = ListGenerators.generateGroupList(new ChooseSettings(), ri, chooseSettings, coursesUrl);
+                        //MainActivity.generateGroup(new ChooseSettings(), MainActivity.getScheduleSettings(sp), coursesUrl, ri);
                 JSONArray jsonGroups = new JSONArray(new Gson().toJson(groups));
                 semester.put("groups", jsonGroups);
                 semesters.put(semester);
@@ -295,7 +316,7 @@ public class SplashActivity extends AppCompatActivity{
         ChooseSettings csWeeks = new ChooseSettings();
         csWeeks.addArg("range", range);
         try {
-            ArrayList<RangeItem> weeks = MainActivity.generateRangeList(url, csWeeks);
+            ArrayList<RangeItem> weeks = ListGenerators.generateRangeList(csWeeks, url);
             JSONArray jsonWeeks = new JSONArray(new Gson().toJson(weeks));
             result.put(listName, jsonWeeks);
 
@@ -317,6 +338,11 @@ public class SplashActivity extends AppCompatActivity{
     private void showInfo(String message){
         info.setText(message);
         info.setVisibility(View.VISIBLE);
-
+    }
+    private void showInfo(boolean show){
+        if(show)
+            info.setVisibility(View.VISIBLE);
+        else
+            info.setVisibility(View.INVISIBLE);
     }
 }

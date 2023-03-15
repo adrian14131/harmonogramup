@@ -42,4 +42,5 @@
     <string name="dataSettingTitle">Údaje:</string>
     <string name="loading_offline_data">Načítání offline dat.</string>
     <string name="updating_data">Aktualizace údajů...</string>
+    <string name="loading">Načítání</string>
 </resources>

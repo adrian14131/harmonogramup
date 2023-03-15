@@ -42,4 +42,5 @@
     <string name="dataSettingTitle">Data:</string>
     <string name="loading_offline_data">Loading offline datas.</string>
     <string name="updating_data">Updating data...</string>
+    <string name="loading">Loading...</string>
 </resources>

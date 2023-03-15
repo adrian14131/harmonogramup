@@ -32,6 +32,9 @@ public class FileTools {
             return false;
         }
         JSONObject fromFile = loadJsonFromFile(file);
+        if(fromFile == null){
+            return false;
+        }
         return fromFile.toString().equals(toCompare.toString());
     }
     public static JSONObject loadJsonFromFile(File dir, String fileName){
@@ -82,7 +85,7 @@ public class FileTools {
     private static String streamToString(InputStream is) throws UnsupportedEncodingException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
         StringBuilder sb = new StringBuilder();
-        String line = null;
+        String line;
         try{
             while ((line = reader.readLine()) != null){
                 sb.append(line + "\n");

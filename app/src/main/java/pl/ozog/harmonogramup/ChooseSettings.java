@@ -1,6 +1,9 @@
 package pl.ozog.harmonogramup;
 
+import android.content.SharedPreferences;
+
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class ChooseSettings {
     LinkedHashMap<String, String> args;
@@ -33,6 +36,22 @@ public class ChooseSettings {
 
     public void removeLastArg(String K){
         args.remove(K);
+    }
+
+    public void setArgs(SharedPreferences sp){
+        LinkedHashMap<String, String> datas = new LinkedHashMap<>();
+        Set<String> keys = sp.getStringSet("datas", null);
+        if(keys != null){
+            for(String key : keys){
+                String value = sp.getString(key, null);
+                if(value != null){
+                    datas.put(key, value);
+                }
+            }
+        }
+        if(!datas.isEmpty()){
+            setArgs(datas);
+        }
     }
 
 
