@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="language_codes_list">
+        <item>system language|default</item>
+        <item>czech|cs</item>
+        <item>english|en</item>
+        <item>polish|pl</item>
+    </string-array>
+</resources>

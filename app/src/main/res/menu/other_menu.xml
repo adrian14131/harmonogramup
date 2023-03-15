@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        tools:context="pl.ozog.harmonogramup.MainActivity">
+    <item
+            android:title="@string/groups_button"
+            android:id="@+id/action_groups"
+            android:onClick="onClick" />
+    <item
+            android:title="@string/change_field_of_study_button"
+            android:id="@+id/action_change_field"
+            android:onClick="onClick" />
+    <item
+            android:id="@+id/action_settings"
+            android:title="@string/settings_action"
+            android:orderInCategory="100"
+            app:showAsAction="never"
+            android:onClick="onClick" />
+</menu>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SettingsActivity">
+
+    <LinearLayout
+            android:id="@+id/settingsHeaderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorBackground"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+                android:id="@+id/settingsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:text="@string/settings_action"
+                android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/settingContentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settingsHeaderLayout">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:id="@+id/settingsContentContainer" >
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/settingsPanel">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/settingsLanguagePanel">
+
+                    <TextView
+                            android:text="@string/languageText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/settingsLanguageTitle"
+                            android:textSize="24sp" />
+
+                    <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/settingsLanguageSpinner"
+                            android:minHeight="48dp"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/datasSettingsPanel"
+                        android:visibility="gone">
+
+                    <TextView
+                            android:text="@string/dataSettingTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dataSettingsTitle"
+                            android:textSize="24sp"
+                            android:layout_weight="1" />
+
+                    <Switch
+                            android:text="@string/offlineMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/dataOfflineModeSwitch"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:minHeight="48dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorBackground"
+                android:orientation="horizontal"
+                android:id="@+id/settingsContentBottomPanel">
+
+            <Button
+                    android:id="@+id/settingsCancelButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="@string/cancel_button"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+
+            <Button
+                    android:id="@+id/settingsResetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:text="@string/default_settings_button"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:layout_weight="1" />
+
+            <Button
+                    android:text="@string/confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:id="@+id/settingConfirmButton"
+                    android:layout_weight="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
