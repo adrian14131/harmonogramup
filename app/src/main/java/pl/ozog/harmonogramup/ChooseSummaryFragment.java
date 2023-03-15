@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import pl.ozog.harmonogramup.R;
+
 
 public class ChooseSummaryFragment extends Fragment {
 

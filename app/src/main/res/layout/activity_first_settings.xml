@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:text="Wstecz"
+                    android:text="@string/back_button"
                     android:textColor="@color/white" />
 
             <Button
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:text="Pomiń"
+                    android:text="@string/skip_button"
                     android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>

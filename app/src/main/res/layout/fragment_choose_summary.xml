@@ -14,7 +14,7 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Podsumowanie"
+                android:text="@string/summary"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="36sp" />

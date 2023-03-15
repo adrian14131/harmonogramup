@@ -3,17 +3,19 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
     <TextView
             android:id="@+id/sdName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeightSmall"
+            android:minHeight="22dp"
             android:text="Kurs o długiej nazwie  "
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:textColor="@color/black" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp" />
 
 
     <LinearLayout

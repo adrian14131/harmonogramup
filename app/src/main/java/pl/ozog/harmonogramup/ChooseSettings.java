@@ -1,10 +1,6 @@
 package pl.ozog.harmonogramup;
 
-import android.util.Log;
-
 import java.util.LinkedHashMap;
-import java.util.Map;
-
 
 public class ChooseSettings {
     LinkedHashMap<String, String> args;
@@ -23,7 +19,9 @@ public class ChooseSettings {
 
     public void addArg(String K, String V){
         args.put(K,V);
-
+    }
+    public String getArg(String K){
+        return args.get(K);
     }
     public void changeArg(String K, String V){
         args.replace(K, V);

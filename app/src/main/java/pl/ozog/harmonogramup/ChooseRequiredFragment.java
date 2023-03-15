@@ -16,6 +16,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import pl.ozog.harmonogramup.adapters.MapAdapter;
+
 
 public class ChooseRequiredFragment extends FirstSettingsFragment {
     private String url = "https://harmonogram.up.krakow.pl/inc/functions/a_select.php";
@@ -80,9 +82,9 @@ public class ChooseRequiredFragment extends FirstSettingsFragment {
         listView.setAdapter(adapter);
         if(options.size()==0){
             error.setVisibility(View.VISIBLE);
-            error.setText("Brak danych.");
+            error.setText(getResources().getString(R.string.no_data));
             if(!((FirstSettings)getActivity()).isOnline()){
-                error.setText(error.getText().toString()+"\n"+"Brak połączenia z internetem.");
+                error.setText(error.getText().toString()+"\n"+getResources().getString(R.string.no_internet_short));
             }
         }
 //        if(options.size()==0){

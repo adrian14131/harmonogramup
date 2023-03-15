@@ -1,2 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Rozvrh PU</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="schedule_on_label">Rozvrh na:</string>
+    <string name="previous_button">Předchozí</string>
+    <string name="next_button">Další</string>
+    <string name="groups_button">Skupiny</string>
+    <string name="change_field_of_study_button">Změnit obor</string>
+    <string name="back_button">Zpět</string>
+    <string name="skip_button">Přeskočit</string>
+    <string name="splash_screen_title">Rozvrh</string>
+    <string name="faculity_fragment_header">Fakulta</string>
+    <string name="type_of_study">Forma</string>
+    <string name="faculty">Fakulta</string>
+    <string name="degree_of_study">Stupeň</string>
+    <string name="field_of_study">Obor</string>
+    <string name="speciality">Specialita</string>
+    <string name="specialization">Specializace</string>
+    <string name="year_of_study">Studijní rok</string>
+    <string name="summary">Shrnutí výběru</string>
+    <string name="day">Den</string>
+    <string name="week">Týden</string>
+    <string name="semester">Semestr</string>
+    <string name="confirm">Potvrdit</string>
+    <string name="choose_groups">Zvolit skupiny</string>
+    <string name="ok">ok</string>
+    <string name="cancel">zrušit</string>
+    <string name="group">Skupina:</string>
+    <string name="wait_moment">Počkejte chvíli.</string>
+    <string name="field_not_choosed">Není zvolen žádný studijní obor.</string>
+    <string name="no_internet_connection">Žádné připojení k internetu nebo serveru.</string>
+    <string name="no_data">Žádné údaje.</string>
+    <string name="no_internet_short">Žádné internetové připojení.</string>
+    <string name="no_pl_brak">žádné</string>
+    <string name="settings_action">Nastavení</string>
+    <string name="languageText">Jazyk:</string>
+    <string name="cancel_button">Zrušit</string>
+    <string name="default_settings_button">Výchozí nastavení</string>
+    <string name="offlineMode">Režim offline</string>
+    <string name="dataSettingTitle">Údaje:</string>
+    <string name="loading_offline_data">Načítání offline dat.</string>
+    <string name="updating_data">Aktualizace údajů...</string>
+</resources>

@@ -39,6 +39,8 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
     ArrayList<String> datas;
     FragmentTransaction ft;
     Boolean wasMain;
+    String iRange, iDateInput;
+    Integer iRangeDatePos;
     ChooseSummaryFragment csf;
     boolean isSummary = false;
     int actualFragment = 0;
@@ -47,8 +49,10 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_settings);
 
-         wasMain = getIntent().getBooleanExtra("isMain", false);
-
+        wasMain = getIntent().getBooleanExtra("isMain", false);
+        iRange = getIntent().getStringExtra("range");
+        iDateInput = getIntent().getStringExtra("dateInput");
+        iRangeDatePos = getIntent().getIntExtra("dateRange",0);
 
         actionBar = getSupportActionBar();
         actionBar.hide();
@@ -262,7 +266,7 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
                 if(isSummary){
                     saveSettings();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent);
 
                     finish();
@@ -279,7 +283,6 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
     }
 
     public static class DownloadPageTask extends AsyncTask<String, Void, Document> {
-
         @Override
         protected  Document doInBackground(String... strings) {
             Document doc = null;
@@ -304,6 +307,10 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
         if(wasMain){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.putExtra("goBackFromFirstSettings", true);
+            intent.putExtra("range", iRange);
+            intent.putExtra("dateInput", iDateInput);
+            intent.putExtra("dateRange",iRangeDatePos);
             startActivity(intent);
         }
         super.onBackPressed();

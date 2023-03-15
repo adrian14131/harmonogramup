@@ -4,34 +4,35 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        android:id="@+id/mainActivityLayout">
 
     <LinearLayout
-            android:id="@+id/linearLayout3"
+            android:id="@+id/mainHeaderLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorBackground"
             android:orientation="horizontal"
-            android:paddingLeft="16dp"
+            android:paddingLeft="8dp"
             android:paddingTop="8dp"
-            android:paddingRight="16dp"
+            android:paddingRight="8dp"
             android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-                android:id="@+id/textView"
+                android:id="@+id/mainTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Harmonogram na:"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="22sp"
+                android:text="@string/schedule_on_label" />
 
         <Spinner
-                android:id="@+id/typeOfRange"
+                android:id="@+id/mainTypeOfRange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -39,36 +40,45 @@
                 android:dropDownWidth="wrap_content"
                 android:popupBackground="@color/colorBackground" />
 
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_more_vert_black_24dp"
+                android:id="@+id/mainMoreButton"
+                android:layout_weight="1"
+                android:background="#00E30808" />
+
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/linearLayout4"
+            android:id="@+id/mainContentLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+            app:layout_constraintTop_toBottomOf="@+id/mainHeaderLayout">
 
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBackground"
                 android:orientation="horizontal"
-                android:paddingLeft="8dp">
+                android:paddingLeft="8dp"
+                android:id="@+id/mainContentUpperPanel">
 
             <Button
-                    android:id="@+id/prevRangeButton"
+                    android:id="@+id/mainPrevRangeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:text="Poprzedni"
+                    android:text="@string/previous_button"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
             <EditText
-                    android:id="@+id/dateInput"
+                    android:id="@+id/mainDateInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -81,7 +91,7 @@
                     tools:text="@tools:sample/date/ddmmyy" />
 
             <Spinner
-                    android:id="@+id/dataRangeSpinner"
+                    android:id="@+id/mainDataRangeSpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -90,19 +100,19 @@
                     android:visibility="gone" />
 
             <Button
-                    android:id="@+id/nextRangeButton"
+                    android:id="@+id/mainNextRangeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:text="Następny"
+                    android:text="@string/next_button"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
         </LinearLayout>
 
         <ListView
-                android:id="@+id/scheduleListView"
+                android:id="@+id/mainScheduleListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
@@ -115,23 +125,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBackground"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/mainContentBottomPanel">
 
             <Button
-                    android:id="@+id/changeGroupButton"
+                    android:id="@+id/mainChangeGroupButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:text="Grupa"
+                    android:text="@string/groups_button"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 
             <Button
-                    android:id="@+id/changeDirectionButton"
+                    android:id="@+id/mainChangeDirectionButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:text="Zmień kierunek"
+                    android:text="@string/change_field_of_study_button"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
 

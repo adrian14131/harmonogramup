@@ -3,7 +3,6 @@ package pl.ozog.harmonogramup;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -21,6 +19,8 @@ import java.util.LinkedHashMap;
 
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import pl.ozog.harmonogramup.adapters.MapAdapter;
 
 
 public class ChooseFirstFragment extends FirstSettingsFragment {
@@ -57,12 +57,9 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 Map.Entry<String, String> item = (Map.Entry)adapterView.getItemAtPosition(i);
-
                 ((FirstSettings)getActivity()).addArgs("action",action);
                 ((FirstSettings)getActivity()).addArgs(data,item.getKey());
-
                 ((FirstSettings)getActivity()).nextFragment(textView.getText().toString()+": "+item.getValue()+"\n", new ArrayList<String>());
             }
         });
@@ -72,26 +69,23 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
     }
 
     protected LinkedHashMap<String, String> getMapFromElement(Document doc){
-        LinkedHashMap<String, String> tmp = new LinkedHashMap<>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         Elements els = doc.getElementsByClass("sidebar-search")
                 .select("div.form-group:has(#faculity_1)")
                 .select("option");
         for(Element el: els){
-            tmp.put(el.attr("value"), el.text());
+            result.put(el.attr("value"), el.text());
         }
 
-        return tmp;
+        return result;
     }
 
     @Override
     public void generateList(boolean isNext) {
         options = new LinkedHashMap<>();
         FirstSettings.DownloadPageTask downloadTask = new FirstSettings.DownloadPageTask();
-
-
         try {
             Document document = downloadTask.execute(mainPage).get();
-
             options = getMapFromElement(document);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -103,9 +97,9 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
         listView.setAdapter(adapter);
         if(options.size()==0){
             error.setVisibility(View.VISIBLE);
-            error.setText("Brak danych.");
+            error.setText(getResources().getString(R.string.no_data));
             if(!((FirstSettings)getActivity()).isOnline()){
-                error.setText(error.getText().toString()+"\n"+"Brak połączenia z internetem.");
+                error.setText(error.getText().toString()+"\n"+getResources().getString(R.string.no_internet_short));
             }
         }
     }

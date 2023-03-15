@@ -11,7 +11,7 @@
             android:id="@+id/splashTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Harmonogram"
+            android:text="@string/splash_screen_title"
             android:textAlignment="center"
             android:textColor="#FFFFFFFF"
             android:textSize="36sp"

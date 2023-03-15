@@ -15,14 +15,13 @@ public abstract class FirstSettingsFragment extends Fragment {
 
 
     protected LinkedHashMap<String, String> getMapFromElement(Document doc){
-        LinkedHashMap<String, String> tmp = new LinkedHashMap<>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         Elements els = doc.select("option");
-
         for(Element el: els){
-            tmp.put(el.attr("value"), el.text());
+            result.put(el.attr("value"), el.text());
         }
 
-        return tmp;
+        return result;
     }
 
     public abstract void generateList(boolean isNext);

@@ -2,9 +2,6 @@ package pl.ozog.harmonogramup;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import pl.ozog.harmonogramup.adapters.MapAdapter;
 
 
 public class ChooseOptionalFragment extends FirstSettingsFragment {
@@ -70,7 +69,6 @@ public class ChooseOptionalFragment extends FirstSettingsFragment {
         FirstSettings.ExecuteTask executeTask = new FirstSettings.ExecuteTask();
         try {
             Document document = executeTask.execute(url).get();
-
             options = getMapFromElement(document);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -84,7 +82,7 @@ public class ChooseOptionalFragment extends FirstSettingsFragment {
             if(isNext){
                 ((FirstSettings)getActivity()).addArgs("action",action);
                 ((FirstSettings)getActivity()).addArgs(data, "null");
-                ((FirstSettings)getActivity()).nextFragment(title.getText().toString()+": brak\n", infos);
+                ((FirstSettings)getActivity()).nextFragment(title.getText().toString()+": "+getResources().getString(R.string.no_pl_brak)+"\n", infos);
 
             }
             else{

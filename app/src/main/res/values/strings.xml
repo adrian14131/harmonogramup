@@ -1,15 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Harmonogram UP</string>
-
+    <string name="app_name">PU Schedule</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="schedule_on_label">Schedule for:</string>
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
+    <string name="groups_button">Groups</string>
+    <string name="change_field_of_study_button">Change field of study</string>
+    <string name="back_button">Back</string>
+    <string name="skip_button">Skip</string>
+    <string name="splash_screen_title">Schedule</string>
+    <string name="faculity_fragment_header">Faculty</string>
+    <string name="type_of_study">Type of study</string>
+    <string name="faculty">Faculty</string>
+    <string name="degree_of_study">Degree of study</string>
+    <string name="field_of_study">Field of study</string>
+    <string name="speciality">Speciality</string>
+    <string name="specialization">Specialization</string>
+    <string name="year_of_study">Year of study</string>
+    <string name="summary">Summary</string>
+    <string name="day">Day</string>
+    <string name="week">Week</string>
+    <string name="semester">Semester</string>
+    <string name="confirm">Confirm</string>
+    <string name="choose_groups">Choose groups</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="group">Group:</string>a
+    <string name="wait_moment">Wait a moment.</string>
+    <string name="field_not_choosed">Field of study is not selected.</string>
+    <string name="no_internet_connection">No internet or server connection.</string>
+    <string name="no_data">No data.</string>
+    <string name="no_internet_short">No internet connection.</string>
+    <string name="no_pl_brak">no</string>
+    <string name="settings_action">Settings</string>
+    <string name="languageText">Language:</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="default_settings_button">Default settings</string>
+    <string name="offlineMode">Offline mode</string>
+    <string name="dataSettingTitle">Data:</string>
+    <string name="loading_offline_data">Loading offline datas.</string>
+    <string name="updating_data">Updating data...</string>
 </resources>
