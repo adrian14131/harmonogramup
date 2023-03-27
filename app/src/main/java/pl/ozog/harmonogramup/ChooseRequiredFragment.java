@@ -18,9 +18,9 @@ import java.util.concurrent.ExecutionException;
 
 import pl.ozog.harmonogramup.adapters.MapAdapter;
 
-
+@SuppressWarnings("unchecked")
 public class ChooseRequiredFragment extends FirstSettingsFragment {
-    private String url = "https://harmonogram.up.krakow.pl/inc/functions/a_select.php";
+    private final String url = "https://harmonogram.up.krakow.pl/inc/functions/a_select.php";
     private TextView info, title, error;
     private ListView listView;
     private boolean skip = false;
@@ -71,9 +71,7 @@ public class ChooseRequiredFragment extends FirstSettingsFragment {
             Document document = executeTask.execute(url).get();
 
             options = getMapFromElement(document);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         options.remove("null");
@@ -84,7 +82,8 @@ public class ChooseRequiredFragment extends FirstSettingsFragment {
             error.setVisibility(View.VISIBLE);
             error.setText(getResources().getString(R.string.no_data));
             if(!((FirstSettings)getActivity()).isOnline()){
-                error.setText(error.getText().toString()+"\n"+getResources().getString(R.string.no_internet_short));
+                String msg = error.getText().toString()+"\n"+getResources().getString(R.string.no_internet_short);
+                error.setText(msg);
             }
         }
 //        if(options.size()==0){

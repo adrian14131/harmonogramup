@@ -15,26 +15,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Switch;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.security.auth.login.LoginException;
-
 import pl.ozog.harmonogramup.adapters.LanguageAdapter;
-
+@SuppressWarnings("unchecked")
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActionBar actionBar;
     Spinner languageSpinner;
     Button resetButton, cancelButton, confirmButton;
-    Switch offlineModeSwitch;
+    SwitchMaterial offlineModeSwitch;
     LinkedHashMap<String, String> languagesMap;
     String langFromSettings = "default";
     String oldLangCode = "";
@@ -46,7 +44,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_settings);
 
         actionBar = getSupportActionBar();
-        actionBar.hide();
+        if(actionBar != null)
+            actionBar.hide();
 
 
         confirmButton = findViewById(R.id.settingConfirmButton);
@@ -85,8 +84,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         offlineModeSwitch.setChecked(offlineMode);
 
         oldLangCode = langFromSettings;
-        ArrayList<String> keys = new ArrayList<>();
-        keys.addAll(languagesMap.keySet());
+        ArrayList<String> keys = new ArrayList<>(languagesMap.keySet());
         selectedLanguage = new AbstractMap.SimpleEntry(selectedLangCode,languagesMap.get(selectedLangCode));
 
         int selPos = keys.indexOf(selectedLangCode);
@@ -181,8 +179,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 Configuration confReset = getBaseContext().getResources().getConfiguration();
                 confReset.setLocale(lcReset);
                 getBaseContext().getResources().updateConfiguration(confReset,getBaseContext().getResources().getDisplayMetrics());
-                ArrayList<String> keys = new ArrayList<>();
-                keys.addAll(languagesMap.keySet());
+                ArrayList<String> keys = new ArrayList<>(languagesMap.keySet());
                 int selPos = keys.indexOf("default");
 
                 if (selPos>=0){

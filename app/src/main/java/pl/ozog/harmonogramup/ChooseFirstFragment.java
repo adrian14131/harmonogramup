@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 
 import pl.ozog.harmonogramup.adapters.MapAdapter;
 
-
+@SuppressWarnings("unchecked")
 public class ChooseFirstFragment extends FirstSettingsFragment {
 
 //    private final String key = "faculity";
@@ -60,7 +60,7 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
                 Map.Entry<String, String> item = (Map.Entry<String, String>) adapterView.getItemAtPosition(i);
                 ((FirstSettings)getActivity()).addArgs("action",action);
                 ((FirstSettings)getActivity()).addArgs(data,item.getKey());
-                ((FirstSettings)getActivity()).nextFragment(textView.getText().toString()+": "+item.getValue()+"\n", new ArrayList<String>());
+                ((FirstSettings)getActivity()).nextFragment(textView.getText().toString()+": "+item.getValue()+"\n", new ArrayList<>());
             }
         });
 
@@ -87,9 +87,7 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
         try {
             Document document = downloadTask.execute(mainPage).get();
             options = getMapFromElement(document);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         options.remove("null");
@@ -99,7 +97,8 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
             error.setVisibility(View.VISIBLE);
             error.setText(getResources().getString(R.string.no_data));
             if(!((FirstSettings)getActivity()).isOnline()){
-                error.setText(error.getText().toString()+"\n"+getResources().getString(R.string.no_internet_short));
+                String msg = error.getText().toString()+"\n"+getResources().getString(R.string.no_internet_short);
+                error.setText(msg);
             }
         }
     }

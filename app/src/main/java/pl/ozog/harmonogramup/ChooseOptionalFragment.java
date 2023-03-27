@@ -18,10 +18,10 @@ import java.util.concurrent.ExecutionException;
 
 import pl.ozog.harmonogramup.adapters.MapAdapter;
 
-
+@SuppressWarnings("unchecked")
 public class ChooseOptionalFragment extends FirstSettingsFragment {
 
-    private String url = "https://harmonogram.up.krakow.pl/inc/functions/a_select.php";
+    private final String url = "https://harmonogram.up.krakow.pl/inc/functions/a_select.php";
     private TextView info, title;
     private ListView listView;
     private boolean skip = true;
@@ -73,7 +73,7 @@ public class ChooseOptionalFragment extends FirstSettingsFragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
         options.remove("null");
         adapter = new MapAdapter(options);

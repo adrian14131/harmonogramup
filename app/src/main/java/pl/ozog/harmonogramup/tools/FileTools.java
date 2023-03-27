@@ -48,11 +48,7 @@ public class FileTools {
         JSONObject result = null;
         try {
             result = new JSONObject(streamToString(new FileInputStream(file)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
+        } catch (JSONException | UnsupportedEncodingException | FileNotFoundException e) {
             e.printStackTrace();
         }
         return result;
@@ -72,11 +68,8 @@ public class FileTools {
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(jsonObject.toString(2));
             fileWriter.flush();
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
 
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }

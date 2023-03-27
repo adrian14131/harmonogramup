@@ -1,7 +1,5 @@
 package pl.ozog.harmonogramup;
 
-import android.util.Log;
-
 import androidx.fragment.app.Fragment;
 
 import org.jsoup.nodes.Document;

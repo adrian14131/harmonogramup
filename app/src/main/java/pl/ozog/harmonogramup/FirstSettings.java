@@ -2,7 +2,6 @@ package pl.ozog.harmonogramup;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
@@ -13,9 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import org.jsoup.Connection;
@@ -25,7 +22,6 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class FirstSettings extends AppCompatActivity implements View.OnClickListener {
@@ -55,7 +51,9 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
         iRangeDatePos = getIntent().getIntExtra("dateRange",0);
 
         actionBar = getSupportActionBar();
-        actionBar.hide();
+        if(actionBar != null)
+            actionBar.hide();
+
         cs = new ChooseSettings();
 
         prevButton = findViewById(R.id.previousButton);
@@ -115,7 +113,8 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
                 ft.hide(fragments.get(i));
             }
         }
-        ft.hide(csf);
+        if(csf != null)
+            ft.hide(csf);
         ft.commit();
 
 //        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -168,12 +167,11 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
             ft.show(csf);
             ft.commit();
             isSummary = true;
-            ArrayList<String> tmp = new ArrayList<>();
-            tmp.addAll(fragments.get(actualFragment).getInfos());
+            ArrayList<String> tmp = new ArrayList<>(fragments.get(actualFragment).getInfos());
             tmp.add(msg);
             csf.setSummary(tmp);
             setButtons(true);
-            skipButton.setText("OK");
+            skipButton.setText(getResources().getString(R.string.ok));
         }
     }
     protected void previousFragment(){
@@ -183,7 +181,7 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
             ft.show(fragments.get(actualFragment));
             ft.commit();
             isSummary = false;
-            skipButton.setText("Pomiń");
+            skipButton.setText(getResources().getString(R.string.skip_button));
             setButtons(fragments.get(actualFragment).canSkip());
         }
         else
@@ -214,11 +212,11 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
         }
 
     }
-    protected void setInfo(String msg, Fragment fragment){
-//        switch (fragment.getId()){
-//
-//        }
-    }
+//    protected void setInfo(String msg, Fragment fragment){
+////        switch (fragment.getId()){
+////
+////        }
+//    }
     private void saveSettings(){
         SharedPreferences sharedPreferences = getSharedPreferences("schedule",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -230,7 +228,7 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
             editor.putString(key, dataMaps.get(key));
         }
 
-        editor.commit();
+        editor.apply();
 
 
 

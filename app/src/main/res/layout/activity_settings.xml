@@ -91,7 +91,7 @@
                             android:textSize="24sp"
                             android:layout_weight="1" />
 
-                    <Switch
+                    <com.google.android.material.switchmaterial.SwitchMaterial
                             android:text="@string/offlineMode"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -99,6 +99,7 @@
                             android:layout_weight="1"
                             android:textSize="20sp"
                             android:minHeight="48dp" />
+
                 </LinearLayout>
 
             </LinearLayout>
