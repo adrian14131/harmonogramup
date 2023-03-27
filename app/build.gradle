@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 33
     defaultConfig {
         applicationId "pl.ozog.harmonogramup"
         minSdkVersion 24
-        targetSdkVersion 28
-        versionCode 10
-        versionName "1.5"
+        targetSdkVersion 33
+        versionCode 11
+        versionName "1.51"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

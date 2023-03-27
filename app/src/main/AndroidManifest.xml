@@ -24,7 +24,8 @@
                 android:configChanges="orientation|keyboardHidden|screenSize|locale" />
         <activity
                 android:name=".SplashActivity"
-                android:configChanges="orientation|keyboardHidden|screenSize|locale">
+                android:configChanges="orientation|keyboardHidden|screenSize|locale"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
