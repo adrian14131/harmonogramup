@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -31,32 +30,19 @@ import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
 
 import pl.ozog.harmonogramup.adapters.MapSpinnerAdapter;
 import pl.ozog.harmonogramup.adapters.RangeSpinnerAdapter;
 import pl.ozog.harmonogramup.adapters.ScheduleAdapterDay;
-import pl.ozog.harmonogramup.downloaders.RangeTask;
-import pl.ozog.harmonogramup.downloaders.ScheduleTask;
 import pl.ozog.harmonogramup.enums.FilesNames;
 import pl.ozog.harmonogramup.generators.ListGenerators;
 import pl.ozog.harmonogramup.generators.ListJsonGenerators;
@@ -94,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textView;
 
     File internalStorageDir;
-    boolean offLineMode;
+    boolean offlineMode;
 
     public static final int GET_VALUE_CODE = 123;
 
@@ -118,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         csMain = new ChooseSettings();
         csMain.setArgs(sharedPreferences);
         datas = csMain.getArgs();
-        offLineMode = sharedPreferences.getBoolean("offlineMode", false);
+        offlineMode = sharedPreferences.getBoolean("offlineMode", false);
         boolean goBackFFS = getIntent().getBooleanExtra("goBackFromFirstSettings",false);
 
         groups = generateGroup();
@@ -202,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             tmpInt++;
                         }
                         if(spinnerSelectedPos<rangeItems.size() && spinnerSelectedPos!=-1){
-//                            rangeItems.get(spinnerSelectedPos).setSelected(true);
+                            rangeItems.get(spinnerSelectedPos).setSelected(true);
                         }
                         else{
                             spinnerSelectedPos = 0;
@@ -491,6 +477,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
     private boolean canDownload(){
-        return isOnline() && !offLineMode;
+        return isOnline() && !offlineMode;
     }
 }

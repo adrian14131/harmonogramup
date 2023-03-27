@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -33,12 +34,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     ActionBar actionBar;
     Spinner languageSpinner;
     Button resetButton, cancelButton, confirmButton;
-
+    Switch offlineModeSwitch;
     LinkedHashMap<String, String> languagesMap;
     String langFromSettings = "default";
     String oldLangCode = "";
     Map.Entry<String, String> selectedLanguage;
-    boolean isLanguageSelected = false;
+    boolean offlineMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +78,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         if(sharedPreferences.getAll().size()>0){
             langFromSettings = sharedPreferences.getString("appLanguageCode", "default");
             selectedLangCode = sharedPreferences.getString("selectedLanguageCode", langFromSettings);
+            offlineMode = sharedPreferences.getBoolean("offlineMode", false);
         }
+
+        offlineModeSwitch = findViewById(R.id.dataOfflineModeSwitch);
+        offlineModeSwitch.setChecked(offlineMode);
+
         oldLangCode = langFromSettings;
         ArrayList<String> keys = new ArrayList<>();
         keys.addAll(languagesMap.keySet());
@@ -150,6 +156,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 SharedPreferences sharedPreferences = getSharedPreferences("schedule", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("appLanguageCode",selectedLanguage.getKey());
+                offlineMode = offlineModeSwitch.isChecked();
+                editor.putBoolean("offlineMode", offlineMode);
                 editor.apply();
                 setResult(Activity.RESULT_OK, confirmIntent);
                 finish();
@@ -180,6 +188,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 if (selPos>=0){
                     languageSpinner.setSelection(selPos, false);
                 }
+
+                offlineMode = false;
+                offlineModeSwitch.setChecked(offlineMode);
 
                 recreate();
                 break;

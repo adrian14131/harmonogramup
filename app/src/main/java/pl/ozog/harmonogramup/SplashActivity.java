@@ -69,21 +69,28 @@ public class SplashActivity extends AppCompatActivity{
         files.put("semesters.json", jsonSemesters);
 
         boolean offlineMode = sharedPreferences.getBoolean("offlineMode", false);
+//        offlineMode = false;
+        Log.e(TAG, "onCreate: offlinemode "+offlineMode);
+        Log.e(TAG, "onCreate: sps: "+sharedPreferences.getAll());
         boolean updateOption = sharedPreferences.getBoolean("updateOption", true);
         if(isOnline() || offlineMode){
             if(hasConfig(sharedPreferences)){
-                if(!offlineMode)
-                    loadDatasToJson(MainActivity.searchUrl, MainActivity.selectUrl);if(isNewData(internalStorageDir)){
-                    if(isOnline() && updateOption){
-                        showInfo(getResources().getString(R.string.updating_data)+"\n"+getResources().getString(R.string.wait_moment));
-                        update(internalStorageDir);
+                if(!offlineMode){
+                    loadDatasToJson(MainActivity.searchUrl, MainActivity.selectUrl);
+                    if(isNewData(internalStorageDir)){
+                        if(isOnline() && updateOption){
+                            showInfo(getResources().getString(R.string.updating_data)+"\n"+getResources().getString(R.string.wait_moment));
+                            update(internalStorageDir);
+                        }
                     }
                 }
+                if(hasOfflineData(internalStorageDir)){
 
-               if(hasOfflineData(internalStorageDir)){
-                    if(isOnline())
-                        showInfo(false);
-                        //showInfo(getResources().getString(R.string.loading));
+                    if(isOnline() && !offlineMode)
+//                        showInfo(false);
+                        showInfo(getResources().getString(R.string.loading));
+                    else if(offlineMode)
+                        showInfo(getResources().getString(R.string.loading_offline_data));
                     else
                         showInfo(getResources().getString(R.string.no_internet_short)+"\n"+getResources().getString(R.string.loading_offline_data));
                     goToMain();
