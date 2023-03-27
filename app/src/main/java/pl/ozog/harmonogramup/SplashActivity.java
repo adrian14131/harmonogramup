@@ -61,7 +61,7 @@ public class SplashActivity extends AppCompatActivity{
         info.setVisibility(View.INVISIBLE);
 
         SharedPreferences sharedPreferences = getSharedPreferences("schedule",Context.MODE_PRIVATE);
-        Log.e("SPLASH", "onCreate: datas "+sharedPreferences.contains("datas"));
+        Log.e(TAG, "onCreate: sps: "+sharedPreferences.getAll());
 
         files.put("courses.json", jsonCourses);
         files.put("groups.json", jsonGroups);
@@ -69,10 +69,8 @@ public class SplashActivity extends AppCompatActivity{
         files.put("semesters.json", jsonSemesters);
 
         boolean offlineMode = sharedPreferences.getBoolean("offlineMode", false);
-//        offlineMode = false;
-        Log.e(TAG, "onCreate: offlinemode "+offlineMode);
-        Log.e(TAG, "onCreate: sps: "+sharedPreferences.getAll());
         boolean updateOption = sharedPreferences.getBoolean("updateOption", true);
+
         if(isOnline() || offlineMode){
             if(hasConfig(sharedPreferences)){
                 if(!offlineMode){
