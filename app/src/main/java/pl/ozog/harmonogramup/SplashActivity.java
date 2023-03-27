@@ -13,10 +13,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.util.Range;
+
 import android.view.View;
 import android.widget.TextView;
-
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -54,7 +52,8 @@ public class SplashActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         actionBar = getSupportActionBar();
-        actionBar.hide();
+        if(actionBar != null)
+            actionBar.hide();
         internalStorageDir = getDataDir();
         Log.e(TAG, "onCreate: getdatadir="+internalStorageDir);
         info = findViewById(R.id.splashInfoTextView);
@@ -140,36 +139,30 @@ public class SplashActivity extends AppCompatActivity{
         return false;
     }
     private void goToMain(){
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        mHandler.postDelayed(() -> {
+            try{
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 //                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent);
+                startActivity(intent);
 
-                    finish();
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
+                finish();
+            }
+            catch(Exception e){
+                e.printStackTrace();
             }
         },1000);
     }
     private void goToFirstConfig(){
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Intent intent = new Intent(getApplicationContext(), FirstSettings.class);
+        mHandler.postDelayed(() -> {
+            try{
+                Intent intent = new Intent(getApplicationContext(), FirstSettings.class);
 //                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent);
+                startActivity(intent);
 
-                    finish();
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
+                finish();
+            }
+            catch(Exception e){
+                e.printStackTrace();
             }
         },1000);
     }
@@ -235,12 +228,11 @@ public class SplashActivity extends AppCompatActivity{
 //        }
         return false;
     }
-    private boolean update(File internalStorageDir){
+    private void update(File internalStorageDir){
         for(Map.Entry<String, JSONObject> entry: files.entrySet()){
             FileTools.saveJsonToFile(internalStorageDir, entry.getKey(), entry.getValue());
             Log.e(TAG, "update: "+entry.getKey());
         }
-        return false;
     }
 
     private boolean loadDatasToJson(String coursesUrl, String rangesUrl){

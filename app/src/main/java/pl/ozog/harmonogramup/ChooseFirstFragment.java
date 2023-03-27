@@ -25,13 +25,13 @@ import pl.ozog.harmonogramup.adapters.MapAdapter;
 
 public class ChooseFirstFragment extends FirstSettingsFragment {
 
-    private String key = "faculity";
-    private String mainPage = "https://harmonogram.up.krakow.pl";
+//    private final String key = "faculity";
+    private final String mainPage = "https://harmonogram.up.krakow.pl";
     private TextView textView, error;
     private ListView listView;
     private String action = "get_form", data = "faculity";
     private MapAdapter adapter;
-    private boolean skip = false;
+    private final boolean skip = false;
     LinkedHashMap<String, String> options;
     public ChooseFirstFragment() {
         // Required empty public constructor
@@ -57,7 +57,7 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Map.Entry<String, String> item = (Map.Entry)adapterView.getItemAtPosition(i);
+                Map.Entry<String, String> item = (Map.Entry<String, String>) adapterView.getItemAtPosition(i);
                 ((FirstSettings)getActivity()).addArgs("action",action);
                 ((FirstSettings)getActivity()).addArgs(data,item.getKey());
                 ((FirstSettings)getActivity()).nextFragment(textView.getText().toString()+": "+item.getValue()+"\n", new ArrayList<String>());
