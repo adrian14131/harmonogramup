@@ -221,12 +221,14 @@ public class FirstSettings extends AppCompatActivity implements View.OnClickList
         SharedPreferences sharedPreferences = getSharedPreferences("schedule",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         cs.addArg("action", "search");
+        cs.addArg("common","0");
         LinkedHashMap<String, String> dataMaps = cs.getArgs();
         Set<String> keySet = dataMaps.keySet();
         editor.putStringSet("datas", keySet);
         for(String key:keySet){
             editor.putString(key, dataMaps.get(key));
         }
+
 
         editor.apply();
 

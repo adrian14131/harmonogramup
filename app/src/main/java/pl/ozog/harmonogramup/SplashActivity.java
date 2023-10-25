@@ -72,6 +72,7 @@ public class SplashActivity extends AppCompatActivity{
 
         if(isOnline() || offlineMode){
             if(hasConfig(sharedPreferences)){
+                Log.e(TAG, "onCreate: ++25" );
                 if(!offlineMode){
                     loadDatasToJson(MainActivity.searchUrl, MainActivity.selectUrl);
                     if(isNewData(internalStorageDir)){

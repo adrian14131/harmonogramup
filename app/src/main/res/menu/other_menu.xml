@@ -12,6 +12,10 @@
             android:id="@+id/action_change_field"
             android:onClick="onClick" />
     <item
+            android:title="@string/show_common_activities"
+            android:id="@+id/action_common_activities"
+            android:onClick="onClick" />
+    <item
             android:id="@+id/action_settings"
             android:title="@string/settings_action"
             android:orderInCategory="100"

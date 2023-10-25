@@ -43,4 +43,6 @@
     <string name="loading_offline_data">Ładowanie danych offline.</string>
     <string name="updating_data">Aktualizacja danych...</string>
     <string name="loading">Ładowanie...</string>
+    <string name="show_common_activities">Pokaż zajęcia wspólne (WF, języki)</string>
+    <string name="hide_common_activities">Ukryj zajęcia wspólne (WF, języki)</string>
 </resources>

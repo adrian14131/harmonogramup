@@ -43,4 +43,6 @@
     <string name="loading_offline_data">Načítání offline dat.</string>
     <string name="updating_data">Aktualizace údajů...</string>
     <string name="loading">Načítání</string>
+    <string name="show_common_activities">Zobrazit běžné aktivity (TV, jazyky)</string>
+    <string name="hide_common_activities">Skrýt běžné aktivity (TV, jazyky)</string>
 </resources>

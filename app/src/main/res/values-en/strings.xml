@@ -43,4 +43,6 @@
     <string name="loading_offline_data">Loading offline datas.</string>
     <string name="updating_data">Updating data...</string>
     <string name="loading">Loading...</string>
+    <string name="show_common_activities">Show common activities (PE, languages)</string>
+    <string name="hide_common_activities">Hide common activities (PE, languages)</string>
 </resources>

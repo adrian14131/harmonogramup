@@ -40,6 +40,7 @@ public class ScheduleTask extends AsyncTask<String, Void, Document> {
         if(doc==null){
             doc = Jsoup.parse("<h1></h1>");
         }
+        Log.e(TAG, "doInBackground: "+cs.getArgs());
         return doc;
     }
 }

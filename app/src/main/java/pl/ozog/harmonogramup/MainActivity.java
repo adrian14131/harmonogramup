@@ -14,8 +14,10 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     File internalStorageDir;
     boolean offlineMode;
 
+    Menu menu;
     public static final int GET_VALUE_CODE = 123;
 
     @Override
@@ -103,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sharedPreferences = getSharedPreferences("schedule", Context.MODE_PRIVATE);
         csMain = new ChooseSettings();
         csMain.setArgs(sharedPreferences);
+
+        updatePatch();
+
         datas = csMain.getArgs();
         offlineMode = sharedPreferences.getBoolean("offlineMode", false);
         boolean goBackFFS = getIntent().getBooleanExtra("goBackFromFirstSettings",false);
@@ -315,6 +321,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        Log.e(TAG, "onMenuOpened: "+featureId );
+        return super.onMenuOpened(featureId, menu);
+    }
+
     public void onClick(MenuItem item) {
 
         switch(item.getItemId()){
@@ -339,6 +351,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 startActivity(intent);
+                break;
+            case R.id.action_common_activities:
+
+                if(csMain.getArg("common") == null){
+                    csMain.addArg("common", "1");
+                }
+                else{
+                    if(csMain.getArg("common").equals("0")) csMain.addArg("common", "1");
+                    else if(csMain.getArg("common").equals("1")) csMain.addArg("common", "0");
+                }
+
+                SharedPreferences sharedPreferences = getSharedPreferences("schedule", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("common", csMain.getArg("common"));
+                editor.apply();
+                if(range.equals("1")) updateLabel();
+                else rangeDataSpinner.setSelection(rangeDataSpinner.getSelectedItemPosition());
                 break;
         }
     }
@@ -390,6 +419,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         PopupMenu popup = new PopupMenu(this, v);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.other_menu, popup.getMenu());
+        MenuItem mi = popup.getMenu().findItem(R.id.action_common_activities);
+        if(csMain.getArg("common").equals("0")) mi.setTitle(R.string.show_common_activities);
+        else if(csMain.getArg("common").equals("1")) mi.setTitle(R.string.hide_common_activities);
         popup.show();
     }
 
@@ -478,5 +510,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     private boolean canDownload(){
         return isOnline() && !offlineMode;
+    }
+
+    private void updatePatch(){
+
+        if(csMain.getArg("common")==null){
+            csMain.addArg("common", "0");
+            SharedPreferences sharedPreferences = getSharedPreferences("schedule", Context.MODE_PRIVATE);
+            Set<String> keys = new HashSet<String>(sharedPreferences.getStringSet("datas",Set.of("")));
+            Log.e(TAG, "updatePatch: "+keys );
+            if(!keys.contains("common")){
+                keys.add("common");
+                Log.e(TAG, "updatePatch: add common"+keys );
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.remove("datas");
+                editor.putStringSet("datas",keys);
+                editor.apply();
+            }
+        }
     }
 }
