@@ -93,7 +93,7 @@ public class ListGenerators {
                             }
                             break;
 
-                            case "timetable-hours-2nd":
+                        case "timetable-hours-2nd":
                             String[] datesElements = entry.getValue().split(" ");
                             if(datesElements.length>1){
                                 newInfos.put("dayOfWeek",datesElements[0]);
@@ -159,17 +159,7 @@ public class ListGenerators {
                         }
                     }
                 }
-                CourseItem courseItem = new CourseItem(
-                        cells.get(0).text(),
-                        cells.get(1).text(),
-                        cells.get(2).text(),
-                        cells.get(3).text(),
-                        cells.get(4).text(),
-                        cells.get(5).text(),
-                        cells.get(6).text(),
-                        courseForm,
-                        cells.get(7).text()
-                );
+                CourseItem courseItem = new CourseItem(cells, courseForm);
                 result.add(courseItem);
             }
         }
@@ -177,6 +167,7 @@ public class ListGenerators {
     }
     public static ArrayList<CourseItem> filterCourseListByGroups(ArrayList<CourseItem> courses, ArrayList<String> groups){
         ArrayList<CourseItem> result = new ArrayList<>();
+        //use strem filter
         if(groups.size() > 0){
             for(CourseItem ci: courses){
                 if(groups.contains(ci.getGroup())){

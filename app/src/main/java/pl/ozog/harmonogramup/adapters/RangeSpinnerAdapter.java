@@ -39,14 +39,14 @@ public class RangeSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        final View result;
-        if (view == null){
-            result = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spinner_row_range, viewGroup, false);
-        }
-        else
-        {
-            result = view;
-        }
+        final View result = view ==null? LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spinner_row_range, viewGroup, false): view;
+//        if (view == null){
+//            result = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spinner_row_range, viewGroup, false);
+//        }
+//        else
+//        {
+//            result = view;
+//        }
         RangeItem item = getItem(i);
         CheckedTextView ctv = result.findViewById(R.id.spinnerRowText2);
         ctv.setText(item.getText());

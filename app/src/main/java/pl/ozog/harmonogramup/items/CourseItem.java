@@ -1,5 +1,8 @@
 package pl.ozog.harmonogramup.items;
 
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,6 +30,17 @@ public class CourseItem {
         this.classRoom = classRoom;
         this.formOfCourse = formOfCourse;
         this.group = group;
+    }
+    public CourseItem(Elements cells, String courseForm){
+        this(cells.get(0).text(),
+                cells.get(1).text(),
+                cells.get(2).text(),
+                cells.get(3).text(),
+                cells.get(4).text(),
+                cells.get(5).text(),
+                cells.get(6).text(),
+                courseForm,
+                cells.get(7).text());
     }
     public CourseItem(String name, String teacher, String date, String dayOfWeek, String fromTime, String toTime, String classRoom,String formOfCourse, String group, String semesterId){
         this.name = name;

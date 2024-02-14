@@ -49,14 +49,15 @@ public class ScheduleAdapterDay extends BaseAdapter {
         String timeFormat = "yyyy-MM-dd HH:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(timeFormat, context.getResources().getConfiguration().getLocales().get(0));
         Date currentTime = Calendar.getInstance().getTime();
-        final View result;
-        if (view == null){
-            result = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_row_day, viewGroup, false);
-        }
-        else
-        {
-            result = view;
-        }
+        final View result = view==null? LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_row_day, viewGroup, false): view;
+
+//        if (view == null){
+//            result = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.schedule_row_day, viewGroup, false);
+//        }
+//        else
+//        {
+//            result = view;
+//        }
         CourseItem item = mData.get(i);
         String time;
         ((TextView) result.findViewById(R.id.sdName)).setText(item.getName());
@@ -66,8 +67,8 @@ public class ScheduleAdapterDay extends BaseAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(d != null){
 
+        if(d != null){
             if(currentTime.getTime()>d.getTime()){
                 result.setBackgroundColor(result.getResources().getColor(R.color.gray, context.getTheme()));
             }
@@ -75,14 +76,16 @@ public class ScheduleAdapterDay extends BaseAdapter {
                 result.setBackgroundColor(result.getResources().getColor(android.R.color.transparent, context.getTheme()));
             }
         }
+        time = item.getFromTime()+"-"+item.getToTime();
+
         if(showData){
             sdf.applyPattern("yyyy-MM-dd EEE");
-            time = item.getFromTime()+"-"+item.getToTime()+"\n"+sdf.format(d);
+            time += "\n"+sdf.format(d);
 
         }
-        else{
-            time = item.getFromTime()+"-"+item.getToTime();
-        }
+//        else{
+//            time = item.getFromTime()+"-"+item.getToTime();
+//        }
         ((TextView) result.findViewById(R.id.sdTime)).setText(time);
         ((TextView) result.findViewById(R.id.sdClassRoom)).setText(item.getClassRoom());
         ((TextView) result.findViewById(R.id.sdGroup)).setText(String.format("%s %s", context.getResources().getString(R.string.group), item.getGroup()));

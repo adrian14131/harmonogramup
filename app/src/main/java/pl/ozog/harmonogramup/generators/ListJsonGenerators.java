@@ -37,7 +37,7 @@ public class ListJsonGenerators {
         if(semesters != null){
             for(int i=0; i<semesters.length(); i++){
                 JSONObject semester = semesters.optJSONObject(i);
-                if(semesters != null){
+                if(semester != null){
                     JSONArray groups = semester.optJSONArray("groups");
                     if(groups != null){
                         for(int j=0; j<groups.length(); j++){

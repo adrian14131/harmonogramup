@@ -37,15 +37,15 @@ public class LanguageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final View result;
-
-        if(convertView == null){
-            result = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_spinner_item, parent, false);
-
-        }
-        else{
-            result = convertView;
-        }
+        final View result = convertView==null? LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_spinner_item, parent, false): convertView;
+//
+//        if(convertView == null){
+//            result = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_spinner_item, parent, false);
+//
+//        }
+//        else{
+//            result = convertView;
+//        }
         LinkedHashMap.Entry<String, String> item = getItem(position);
         TextView itemTextView = result.findViewById(android.R.id.text1);
         itemTextView.setTextSize(20);

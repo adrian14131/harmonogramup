@@ -313,18 +313,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (requestCode){
             case SETTINGS_CODE:
-
                 if(resultCode == Activity.RESULT_OK){
                     recreate();
                 }
                 break;
         }
-    }
-
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        Log.e(TAG, "onMenuOpened: "+featureId );
-        return super.onMenuOpened(featureId, menu);
     }
 
     public void onClick(MenuItem item) {
@@ -353,7 +346,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.action_common_activities:
-
+                
+                
                 if(csMain.getArg("common") == null){
                     csMain.addArg("common", "1");
                 }
@@ -368,6 +362,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.apply();
                 if(range.equals("1")) updateLabel();
                 else rangeDataSpinner.setSelection(rangeDataSpinner.getSelectedItemPosition());
+                
+                groups = generateGroup();
                 break;
         }
     }
@@ -518,10 +514,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             csMain.addArg("common", "0");
             SharedPreferences sharedPreferences = getSharedPreferences("schedule", Context.MODE_PRIVATE);
             Set<String> keys = new HashSet<String>(sharedPreferences.getStringSet("datas",Set.of("")));
-            Log.e(TAG, "updatePatch: "+keys );
             if(!keys.contains("common")){
                 keys.add("common");
-                Log.e(TAG, "updatePatch: add common"+keys );
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 //            editor.remove("datas");
                 editor.putStringSet("datas",keys);

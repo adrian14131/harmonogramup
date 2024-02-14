@@ -38,14 +38,14 @@ public class MapSpinnerAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        final View result;
-        if (view == null){
-            result = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spinner_row, viewGroup, false);
-        }
-        else
-        {
-            result = view;
-        }
+        final View result = view == null? LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spinner_row, viewGroup, false): view;
+//        if (view == null){
+//            result = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spinner_row, viewGroup, false);
+//        }
+//        else
+//        {
+//            result = view;
+//        }
         Map.Entry<String, String> item = getItem(i);
 
         ((CheckedTextView) result.findViewById(R.id.spinnerRowText1)).setText(item.getValue());
