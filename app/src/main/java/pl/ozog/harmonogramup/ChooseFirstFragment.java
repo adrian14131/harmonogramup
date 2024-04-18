@@ -68,7 +68,7 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
         return view;
     }
 
-    protected LinkedHashMap<String, String> getMapFromElement(Document doc){
+    public static LinkedHashMap<String, String> getMapFromElement(Document doc){
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         Elements els = doc.getElementsByClass("sidebar-search")
                 .select("div.form-group:has(#faculity_1)")
@@ -77,6 +77,7 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
             result.put(el.attr("value"), el.text());
         }
 
+        result.remove("null");
         return result;
     }
 
@@ -90,7 +91,7 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        options.remove("null");
+//        options.remove("null");
         adapter = new MapAdapter(options);
         listView.setAdapter(adapter);
         if(options.size()==0){

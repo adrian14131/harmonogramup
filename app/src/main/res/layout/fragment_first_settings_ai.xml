@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".FirstSettingsAiFragment">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/aiFragmentTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AI"
+                android:textAlignment="center"
+                android:textColor="#FFFFFFFF"
+                android:textSize="36sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+                android:id="@+id/aiFragmentInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:gravity="start|top"
+                android:ems="10"
+                android:id="@+id/aiInputText"
+                android:singleLine="false"
+                android:lines="6"
+                android:background="#FFFFFF" />
+
+        <Button
+                android:text="Send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/aiSendButton" />
+
+        <TextView
+                android:text="Pobieranie danych"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/aiProgressBarLabel"
+                app:layout_constraintBottom_toTopOf="@+id/aiProgressBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="8dp"
+                android:textColor="#FFFFFF"
+                android:textAlignment="center" />
+
+        <ProgressBar
+                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/aiProgressBar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="32dp"
+                android:scaleY="2"
+                android:progressTint="#FFFFFF"
+                android:max="100"
+                android:progress="0" />
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/aiSummaryLinearLayout"></LinearLayout>
+
+        <TextView
+                android:id="@+id/aiSummaryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

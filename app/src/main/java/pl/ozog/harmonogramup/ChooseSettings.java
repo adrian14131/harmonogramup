@@ -27,7 +27,10 @@ public class ChooseSettings {
         return args.get(K);
     }
     public void changeArg(String K, String V){
-        args.replace(K, V);
+        if(args.containsKey(K))
+            args.replace(K, V);
+        else
+            addArg(K, V);
     }
 
     public boolean isArg(String K){
