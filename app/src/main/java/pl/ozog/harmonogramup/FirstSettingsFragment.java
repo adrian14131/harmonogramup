@@ -1,7 +1,5 @@
 package pl.ozog.harmonogramup;
 
-import android.util.Log;
-
 import androidx.fragment.app.Fragment;
 
 import org.jsoup.nodes.Document;
@@ -14,7 +12,7 @@ import java.util.LinkedHashMap;
 public abstract class FirstSettingsFragment extends Fragment {
 
 
-    protected static LinkedHashMap<String, String> getMapFromElement(Document doc){
+    public static LinkedHashMap<String, String> getMapFromElement(Document doc){
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         Elements els = doc.select("option");
         for(Element el: els){
