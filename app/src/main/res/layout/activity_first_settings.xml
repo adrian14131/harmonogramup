@@ -60,6 +60,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aiModeButton" />
+
+        <Button
+                android:id="@+id/testModeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="Test Mode"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/normalModeButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -143,6 +156,15 @@
                         android:textColor="@color/white" />
 
                 <Button
+                        android:text="@string/reset_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/resetButton"
+                        android:background="@android:color/transparent"
+                        android:layout_weight="1"
+                        android:textColor="@color/white" />
+
+                <Button
                         android:id="@+id/skipButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -153,7 +175,6 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

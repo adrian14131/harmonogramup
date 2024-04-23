@@ -5,10 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +50,7 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
     ArrayList<String> datas;
 
     ArrayList<String> names;
+    ArrayList<String> summaryList;
     ChooseSettings choices;
     EditText inputText;
     LinearLayout summaryLinearLayout;
@@ -67,6 +66,7 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         choices = new ChooseSettings();
+        summaryList = new ArrayList<>();
 
     }
 
@@ -76,6 +76,7 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
         this.actions = actions;
         this.datas = datas;
         this.names = names;
+
         aiApi = new AiScheduleApi(url, function, actions, datas, names, choices);
         aiApi.setApiCallback(this);
     }
@@ -123,18 +124,21 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
 
 
     }
+
     private void updateResult(JSONObject jsonObject, ArrayList<String> fields, int size){
 
 //        StringBuilder sb = new StringBuilder();
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(()->{
-            summaryLinearLayout.removeAllViews();
+            summaryLinearLayout.removeAllViewsInLayout();
         });
+        summaryList.clear();
         for (int i = 0; i < size; i++) {
 
             JSONObject jsonField = jsonObject.optJSONObject(fields.get(i));
             String value = jsonField!=null?jsonField.optString("value",""):"";
             addSummaryTV(summaryLinearLayout, names.get(i)+": "+value);
+            summaryList.add(names.get(i)+": "+value);
 //            sb.append(names.get(i)+": "+value+"\n");
 
 
@@ -197,5 +201,15 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
     @Override
     public void onAiApiUpdateProgressInfo(String text) {
         updateProgressBarLabel(text);
+    }
+
+    @Override
+    public void onAiApiFinalResult() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(()->{
+            ((FirstSettings) getActivity()).addArgs(choices.getArgs());
+            ((FirstSettings) getActivity()).goToSummary(summaryList);
+        });
+
     }
 }

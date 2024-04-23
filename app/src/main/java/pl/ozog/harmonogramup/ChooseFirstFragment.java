@@ -58,8 +58,8 @@ public class ChooseFirstFragment extends FirstSettingsFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Map.Entry<String, String> item = (Map.Entry<String, String>) adapterView.getItemAtPosition(i);
-                ((FirstSettings)getActivity()).addArgs("action",action);
-                ((FirstSettings)getActivity()).addArgs(data,item.getKey());
+                ((FirstSettings)getActivity()).addArg("action",action);
+                ((FirstSettings)getActivity()).addArg(data,item.getKey());
                 ((FirstSettings)getActivity()).nextFragment(textView.getText().toString()+": "+item.getValue()+"\n", new ArrayList<>());
             }
         });

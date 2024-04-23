@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class ChooseSummaryFragment extends Fragment {
         StringBuilder sb = new StringBuilder();
         for(String info: infos){
             sb.append(info);
+            Log.e("TAG", "setSummary: "+info );
         }
         info.setText(sb.toString());
     }

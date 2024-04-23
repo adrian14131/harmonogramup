@@ -126,8 +126,8 @@ public class AiScheduleApi{
             prepareFieldInfos("form", "formę studiów", "formie studiów", false, "", true,"1");
             prepareFieldInfos("degree", "stopień", "stopniu", false, "", true,"2");
             prepareFieldInfos("direction", "kierunek", "kierunku", false, "", true,"1213");
-            prepareFieldInfos("specialty", "specjalność", "specjalności", false, "", false,"");
-            prepareFieldInfos("specialization", "specjalizację", "specjalizacji", false, "", false,"");
+            prepareFieldInfos("specialty", "specjalność", "specjalności", true, "jeżeli nie podano jaka specjalność to wybierz element, gdzie pole \"value\" = Wszystkie", false,"");
+            prepareFieldInfos("specialization", "specjalizację", "specjalizacji", true, "jeżeli nie podano jaka specjalizacja to wybierz element, gdzie pole \"value\" = Wszystkie", false,"");
             prepareFieldInfos("year", "rok studiów", "roku studiów", true, "przy wyborze zadecyduj czy teraz jest semestr letni czy zimowy", false,"518");
         }
         private void prepareFieldInfos(String key, String name1, String name2, Boolean needMoreInfo, String moreInfo, Boolean required, String defaultData){
@@ -153,17 +153,19 @@ public class AiScheduleApi{
                 if(result.size()==fieldOrder.size()){
                     errorIndex = 0;
                     callback.onAiApiUpdateProgressInfo("Zakończono");
+                    callback.onAiApiFinalResult();
                 }
 
                 JSONObject jsonObject = makeJsonResult();
                 Log.e("AI", "startProccess: "+jsonObject);
                 callback.onAiApiUpdateResult(jsonObject, fieldOrder, result.size());
 
-
-
-
             });
         }
+        private String repairJson(String json){
+            return !json.isEmpty()?json.substring(json.indexOf("{"),json.lastIndexOf("}")+1):json;
+        }
+
         public void execute(){
             for (int i = errorIndex; i <fieldOrder.size() ; i++) {
                 callback.onAiApiUpdateProgressInfo("Ładowanie: "+names.get(i));
@@ -173,7 +175,7 @@ public class AiScheduleApi{
                     chooseOther(i);
 
                 if(isError(i) && Boolean.TRUE.equals(isRequaireds.get(fieldOrder.get(i)))){
-                    Log.e("AI", "execute: error on index"+i);
+                    Log.e("AI", "execute: error on index"+i+" "+result.get(i));
                     callback.onAiApiError("Błąd w polu "+fieldName1.get(fieldOrder.get(errorIndex))+". Podaj jeszcze raz informacje na temat tego pola.");
                     break;
                 }
@@ -189,14 +191,18 @@ public class AiScheduleApi{
             try{
                 Document document = downloadPageTask.execute(url).get();
                 LinkedHashMap<String, String> options = ChooseFirstFragment.getMapFromElement(document);
-
-                String aiRes = askAI(mapToJson(options).toString(), 0, true);
+                String json = mapToJson(options).toString();
+                String aiRes = askAI(json, 0, true);
                 Log.e("AI", "getInstitute: "+aiRes);
                 if(waitRepeat(20,aiRes)){
                     callback.onAiApiUpdateProgressInfo("Ładowanie: "+names.get(0));
+
                     chooseInstitute();
                     return;
                 }
+                aiRes = repairJson(aiRes);
+                aiRes = setDefaultForOptional(aiRes, json, 0);
+
                 result.add(aiRes);
 
             } catch (ExecutionException e) {
@@ -211,15 +217,19 @@ public class AiScheduleApi{
             try{
                 Document document = executeTask.execute(functionUrl).get();
                 LinkedHashMap<String, String> options = FirstSettingsFragment.getMapFromElement(document);
-                String aiRes = askAI(mapToJson(options).toString(), index, true);
+                String json = mapToJson(options).toString();
+                String aiRes = askAI(json, index, true);
+
 
                 Log.e("AI", "getOtherChoices: "+aiRes);
                 if(waitRepeat(20,aiRes)){
                     callback.onAiApiUpdateProgressInfo("Ładowanie: "+names.get(index));
                     chooseOther(index);
-
                     return;
                 }
+                aiRes = repairJson(aiRes);
+                aiRes = setDefaultForOptional(aiRes, json, index);
+
                 result.add(aiRes);
 
             } catch (ExecutionException e) {
@@ -228,13 +238,67 @@ public class AiScheduleApi{
                 throw new RuntimeException(e);
             }
         }
+        private int indexOfJsonWith(JSONArray jsonArray, String K, String V){
+            if(jsonArray==null) return -1;
+            if(K == null) return -1;
+            V = V==null?"null":V;
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject element = jsonArray.getJSONObject(i);
+                    if(!element.has(K)) continue;
+                    if(V.equals(element.get(K))) return i;
+                } catch (JSONException e) {
+                    return -1;
+                }
+            }
+            return -1;
+        }
+
+        private String setDefaultForOptional(String aiRes, String optionsJson, int index){
+            if(Boolean.FALSE.equals(isRequaireds.get(fieldOrder.get(index)))){
+
+                try {
+                    JSONObject aiResJsonObject = new JSONObject(aiRes);
+                    JSONArray optionsJsonArray = new JSONArray(optionsJson);
+                    if(aiResJsonObject.has(fieldOrder.get(index))){
+                        JSONObject insideJson = aiResJsonObject.getJSONObject(fieldOrder.get(index));
+                        if(insideJson.has("key") && insideJson.has("value")){
+                            int findIndex = indexOfJsonWith(optionsJsonArray, "key", insideJson.optString("key",""));
+                            if(findIndex<0) findIndex = indexOfJsonWith(optionsJsonArray, "key", "null");
+                            if(findIndex<0) return aiRes;
+                            JSONObject fromArray = optionsJsonArray.getJSONObject(findIndex);
+                                if(fromArray.has("key") && fromArray.has("value")){
+                                    if(insideJson.optString("key","null").equals(fromArray.optString("key","null"))){
+                                        if(insideJson.optString("value","").equals(fromArray.optString("value","")))
+                                            return aiRes;
+                                        else{
+                                            JSONObject resultJsonObject = new JSONObject();
+                                            resultJsonObject.put(fieldOrder.get(index),fromArray);
+                                            return resultJsonObject.toString();
+                                        }
+                                    }
+
+
+                                }
+                                else return aiRes;
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    return aiRes;
+                }
+            }
+            else
+                return aiRes;
+            return aiRes;
+        }
 
         private boolean isError(int index){
 
             try{
                 JSONObject jsonObject = new JSONObject(result.get(index));
                 String message = jsonObject.optString(fieldOrder.get(index), "error");
-                Log.e("AI", "checkIfError: "+message );
+//                Log.e("AI", "checkIfError: "+message );
                 if((message.equals("error") || jsonObject.toString().contains("error")) && Boolean.TRUE.equals(isRequaireds.get(fieldOrder.get(index)))){
                     errorIndex = index;
                     result.remove(index);
@@ -245,6 +309,7 @@ public class AiScheduleApi{
                 if(isRequaireds.get(fieldOrder.get(index))){
                     errorIndex = index;
                     result.remove(index);
+                    Log.e("TAG", "isError: json exception" );
                 }
                 return true;
             }
@@ -373,6 +438,8 @@ public class AiScheduleApi{
 
         void onAiProcessStart();
         void onAiProccessStop();
+
+        void onAiApiFinalResult();
         void onAiApiUpdateResult(JSONObject jsonObject, ArrayList<String> fields, int size);
         void onAiApiError(String error);
 

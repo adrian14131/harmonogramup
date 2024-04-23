@@ -45,5 +45,7 @@
     <string name="show_common_activities">Show common activities (PE, languages)</string>
     <string name="hide_common_activities">Hide common activities (PE, languages)</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="reset_button">Reset</string>
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

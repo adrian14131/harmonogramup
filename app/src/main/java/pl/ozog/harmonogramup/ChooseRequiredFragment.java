@@ -53,9 +53,8 @@ public class ChooseRequiredFragment extends FirstSettingsFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Map.Entry<String, String> item = (Map.Entry)adapterView.getItemAtPosition(i);
-
-                ((FirstSettings)getActivity()).addArgs("action",action);
-                ((FirstSettings)getActivity()).addArgs(data, item.getKey());
+                ((FirstSettings)getActivity()).addArg("action",action);
+                ((FirstSettings)getActivity()).addArg(data, item.getKey());
                 ((FirstSettings)getActivity()).nextFragment(title.getText().toString()+": "+item.getValue()+"\n", infos);
             }
         });

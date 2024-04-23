@@ -52,12 +52,11 @@ public class ChooseOptionalFragment extends FirstSettingsFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Map.Entry<String, String> item = (Map.Entry)adapterView.getItemAtPosition(i);
 
-                ((FirstSettings)getActivity()).addArgs("action",action);
-                ((FirstSettings)getActivity()).addArgs(data, item.getKey());
+                ((FirstSettings)getActivity()).addArg("action",action);
+                ((FirstSettings)getActivity()).addArg(data, item.getKey());
                 ((FirstSettings)getActivity()).nextFragment(title.getText().toString()+": "+item.getValue()+"\n", infos);
             }
         });
-
 
         return view;
     }
@@ -80,8 +79,8 @@ public class ChooseOptionalFragment extends FirstSettingsFragment {
         listView.setAdapter(adapter);
         if(options.size()==0){
             if(isNext){
-                ((FirstSettings)getActivity()).addArgs("action",action);
-                ((FirstSettings)getActivity()).addArgs(data, "null");
+                ((FirstSettings)getActivity()).addArg("action",action);
+                ((FirstSettings)getActivity()).addArg(data, "null");
                 ((FirstSettings)getActivity()).nextFragment(title.getText().toString()+": "+getResources().getString(R.string.no_pl_brak)+"\n", infos);
 
             }

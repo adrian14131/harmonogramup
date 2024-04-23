@@ -45,4 +45,5 @@
     <string name="loading">Načítání</string>
     <string name="show_common_activities">Zobrazit běžné aktivity (TV, jazyky)</string>
     <string name="hide_common_activities">Skrýt běžné aktivity (TV, jazyky)</string>
+    <string name="reset_button">Resetovat</string>
 </resources>

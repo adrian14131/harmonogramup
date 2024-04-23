@@ -45,4 +45,5 @@
     <string name="loading">Loading...</string>
     <string name="show_common_activities">Show common activities (PE, languages)</string>
     <string name="hide_common_activities">Hide common activities (PE, languages)</string>
+    <string name="reset_button">Reset</string>
 </resources>
