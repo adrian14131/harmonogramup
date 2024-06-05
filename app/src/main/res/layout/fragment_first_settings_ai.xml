@@ -45,10 +45,16 @@
                 android:background="#FFFFFF" />
 
         <Button
-                android:text="Send"
+                android:text="@string/ai_send_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/aiSendButton" />
+
+        <Button
+                android:text="VOICE MODE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/voiceModeButton" />
 
         <TextView
                 android:text="Pobieranie danych"

@@ -2,6 +2,7 @@ package pl.ozog.harmonogramup.ai;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
 import com.theokanning.openai.service.OpenAiService;
@@ -41,7 +42,10 @@ public class AiScheduleApi{
     OpenAiService aiService;
 
     AiChoiceProccess aiChoiceProccess;
-    public AiScheduleApi(String url, String functionUrl, ArrayList<String> actions, ArrayList<String> datas, ArrayList<String> names, ChooseSettings choices){
+    TextToSpeech tts;
+    final String canTakeLonger = "Proces wyszukiwania może potrwać trochę dłużej.";
+    boolean toldAboutLongerTime = false;
+    public AiScheduleApi(String url, String functionUrl, ArrayList<String> actions, ArrayList<String> datas, ArrayList<String> names, ChooseSettings choices, TextToSpeech tts){
 
         this.aiService = new OpenAiService("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");
 
@@ -56,16 +60,22 @@ public class AiScheduleApi{
         this.choices = choices;
 
         this.aiChoiceProccess = new AiChoiceProccess();
+        this.tts = tts;
 
     }
 
-
+    private void said(String text){
+        if(tts!=null){
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        }
+    }
 
     public void setApiCallback(AiScheduleApiCallback callback){
         this.callback = callback;
     }
 
     public void startProccess(String message){
+        toldAboutLongerTime = false;
         aiChoiceProccess.start(message);
     }
 
@@ -98,6 +108,7 @@ public class AiScheduleApi{
             prepareFields();
             prepareFieldOrder();
         }
+
         private void init(){
             result = new ArrayList<>();
             fieldOrder = new ArrayList<>();
@@ -177,6 +188,7 @@ public class AiScheduleApi{
                 if(isError(i) && Boolean.TRUE.equals(isRequaireds.get(fieldOrder.get(i)))){
                     Log.e("AI", "execute: error on index"+i+" "+result.get(i));
                     callback.onAiApiError("Błąd w polu "+fieldName1.get(fieldOrder.get(errorIndex))+". Podaj jeszcze raz informacje na temat tego pola.");
+                    said("Błąd w polu "+fieldName1.get(fieldOrder.get(errorIndex))+". Podaj jeszcze raz informacje na temat tego pola.");
                     break;
                 }
 
@@ -376,6 +388,11 @@ public class AiScheduleApi{
         private boolean waitRepeat(int seconds, String aiRes){
             long endTime = System.currentTimeMillis()+(seconds*1000);
             if(aiRes.equals("wait")){
+                if(!toldAboutLongerTime){
+                    said(canTakeLonger);
+                    toldAboutLongerTime = true;
+                }
+
                 Handler handler = new Handler(Looper.getMainLooper());
                 Runnable runnable = new Runnable() {
                     @Override

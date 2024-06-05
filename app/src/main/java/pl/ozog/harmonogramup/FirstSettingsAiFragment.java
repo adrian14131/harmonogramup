@@ -1,12 +1,19 @@
 package pl.ozog.harmonogramup;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -43,7 +51,7 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
 
     TextView info, summary, progressBarLabel;
     ProgressBar progressBar;
-    Button sendButton;
+    Button sendButton, voiceModeButton;
 
     String url, functionUrl;
     ArrayList<String> actions;
@@ -55,8 +63,14 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
     EditText inputText;
     LinearLayout summaryLinearLayout;
     AiScheduleApi aiApi;
+    private static final int SPEECH_REQUEST_CODE = 1994;
     final String exampleMessage = "Studiuję Edukację Techniczno Informatyczną na instytucie Nauk Technicznych. Studiuję na pierwszym roku, studia magisterskie, stacjonarne.";
+    final String welcomeTTS = "Witaj. Opisz dokładnie co studiujesz (instytut, formę studiów, stopień, kierunek, rok studiów oraz opcjonalnie specjalizację i specjalność";
 
+
+    String toSpeechStr = welcomeTTS;
+
+    TextToSpeech tts;
     public FirstSettingsAiFragment() {
         // Required empty public constructor
     }
@@ -70,6 +84,9 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
 
     }
 
+    private void said(String text){
+        tts.speak(text,TextToSpeech.QUEUE_FLUSH,null, null);
+    }
     public void initAiProccess(String url, String function, ArrayList<String> actions, ArrayList<String> datas, ArrayList<String> names){
         this.url = url;
         this.functionUrl = function;
@@ -77,9 +94,34 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
         this.datas = datas;
         this.names = names;
 
-        aiApi = new AiScheduleApi(url, function, actions, datas, names, choices);
+        aiApi = new AiScheduleApi(url, function, actions, datas, names, choices, tts);
         aiApi.setApiCallback(this);
+        said(welcomeTTS);
     }
+
+    private void displayVoiceRecognizer(){
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        startActivityForResult(intent, SPEECH_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS);
+
+            String spokenText = results.get(0);
+            if(spokenText!=null){
+                if(!spokenText.isEmpty()){
+                    inputText.setText(inputText.getText().toString()+"\n"+spokenText);
+                }
+            }
+            // Do something with spokenText.
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,10 +134,18 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
         progressBar = view.findViewById(R.id.aiProgressBar);
         sendButton = view.findViewById(R.id.aiSendButton);
         sendButton.setOnClickListener(this);
+        voiceModeButton = view.findViewById(R.id.voiceModeButton);
+        voiceModeButton.setOnClickListener(this);
         inputText = view.findViewById(R.id.aiInputText);
         inputText.setText(exampleMessage);
         summaryLinearLayout = view.findViewById(R.id.aiSummaryLinearLayout);
-
+        tts = new TextToSpeech(this.getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status!= TextToSpeech.ERROR)
+                    tts.setLanguage(new Locale("pl"));
+            }
+        });
 
         return view;
     }
@@ -104,8 +154,11 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.aiSendButton:
+                said("Rozpoczęto wyszukiwanie.");
                 aiApi.startProccess(inputText.getText().toString());
                 break;
+            case R.id.voiceModeButton:
+                displayVoiceRecognizer();
         }
     }
 
@@ -205,6 +258,7 @@ public class FirstSettingsAiFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onAiApiFinalResult() {
+        said("Ukończono wyszukiwanie zostaniesz przeniesiony na ekran podsumowania.");
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(()->{
             ((FirstSettings) getActivity()).addArgs(choices.getArgs());

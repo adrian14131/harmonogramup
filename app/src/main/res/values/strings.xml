@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PU Schedule</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="schedule_on_label">Schedule for:</string>
     <string name="previous_button">Previous</string>
     <string name="next_button">Next</string>
@@ -44,8 +43,6 @@
     <string name="loading">Loading...</string>
     <string name="show_common_activities">Show common activities (PE, languages)</string>
     <string name="hide_common_activities">Hide common activities (PE, languages)</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="reset_button">Reset</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ai_send_button">Send to AI</string>
 </resources>
