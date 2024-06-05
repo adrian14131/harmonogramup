@@ -47,7 +47,7 @@ public class AiScheduleApi{
     boolean toldAboutLongerTime = false;
     public AiScheduleApi(String url, String functionUrl, ArrayList<String> actions, ArrayList<String> datas, ArrayList<String> names, ChooseSettings choices, TextToSpeech tts){
 
-        this.aiService = new OpenAiService("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");
+        this.aiService = new OpenAiService("token do api");
 
         //urls
         this.url = url;

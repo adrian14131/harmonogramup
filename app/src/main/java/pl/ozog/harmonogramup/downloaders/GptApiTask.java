@@ -43,7 +43,7 @@ public class GptApiTask extends AsyncTask<String, Void, String> {
             result = aiService.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage().getContent();
         }
         catch (RuntimeException r){
-            Log.e("AI", "doInBackground: runtimeerror" );
+            Log.e("AI", "doInBackground: runtimeerror" +r);
             return "wait";
 //            try {
 //
